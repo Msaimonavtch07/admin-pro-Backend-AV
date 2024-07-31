@@ -7,25 +7,22 @@ const { dbConnection } = require('./database/config');
 const app = express();
 
 // Configurar CORS
-app.use(cors())
+app.use(cors());
+
+// lectura y parseo del Body
+app.use( express.json() );
 
 // Base de datos...
 dbConnection();
 
-console.log(process.env)
+/* console.log(process.env) */
 
 // mean_user
 // ogSolHtci4jy52LU
 
 // Ruta
-app.get( '/', ( req, res ) => {
-
-   res.json({
-    ok: true,
-    msg: 'Hello world'
-   });
-
-});
+app.use('/api/usuarios', require('./routes/usuarios'));
+app.use( '/api/login', require('./routes/auth') );
 
 app.listen( process.env.PORT, () => {
     console.log('Servidor corriendo en el puerto ', + process.env.PORT )
